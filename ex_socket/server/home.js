@@ -25,6 +25,7 @@ io.on('connection', function(socket) {
   // 'message'라는 이름의 event를 받았을 경우 호출
   socket.on('message', function(obj){
 		console.log('server received data : ' + obj);
+    socket.emit('message', "OK");
 	});
 
 });

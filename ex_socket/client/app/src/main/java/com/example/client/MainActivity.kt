@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         // 클라이언트에서 이벤트 처리
         mSocket.on(Socket.EVENT_CONNECT, onConnect)
+        mSocket.on("message", onMessage)
 
         val button = findViewById<Button>(R.id.button)
         button.setOnClickListener {
@@ -45,5 +46,10 @@ class MainActivity : AppCompatActivity() {
     // EVENT_CONNECT의 리스너 설정
     val onConnect: Emitter.Listener = Emitter.Listener {
         println("Connect")
+    }
+
+    val onMessage: Emitter.Listener = Emitter.Listener {
+        val obj = it[0].toString()
+        println(obj)
     }
 }

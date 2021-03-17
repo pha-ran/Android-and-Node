@@ -23,6 +23,12 @@ db.on('error', function(err){
   console.log('DB ERROR : ', err);
 });
 
+// DB schema
+var contactSchema = mongoose.Schema({
+  name:String
+});
+var Contact = mongoose.model('contact', contactSchema);
+
 // 클라이언트에서 connect에 성공 시 호출
 io.on('connection', function(socket) {
 
@@ -42,6 +48,11 @@ io.on('connection', function(socket) {
     socket.on('message', function(obj){
 		  console.log('server received data : ' + obj);
       socket.emit('message', "OK");
+      // 받은 오브젝트로 mongoDB에 데이터를 생성
+      Contact.create(obj, function(err, contact){
+        if(err) console.log('error : ' + (err));
+        console.log(contact);
+      });
 	  });
 
 });

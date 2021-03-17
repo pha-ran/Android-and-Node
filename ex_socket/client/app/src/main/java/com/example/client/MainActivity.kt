@@ -6,6 +6,7 @@ import android.widget.Button
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
+import org.json.JSONObject
 import java.net.URISyntaxException
 
 class MainActivity : AppCompatActivity() {
@@ -32,8 +33,9 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener {
 
             // 서버의 이벤트를 호출
-            val data = "Hello World"
-            mSocket.emit("message", data)
+            var json : JSONObject = JSONObject()
+            json.put("name", "seed") //json 오브젝트 전달, mongoDB에 데이터 생성
+            mSocket.emit("message", json)
         }
 
         val button2 = findViewById<Button>(R.id.button2)

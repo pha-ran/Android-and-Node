@@ -2,7 +2,12 @@ var express = require('express');
 var app = express();
 
 app.get('/', function(req, res) {
-  res.send('Hello World!');
+  console.log("get '/'");
+});
+
+app.get('/data', function(req, res) {
+  console.log("get '/data'");
+  res.json({id:1, name:'json'});
 });
 
 var port = 2021;

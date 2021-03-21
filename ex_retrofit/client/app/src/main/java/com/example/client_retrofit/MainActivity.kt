@@ -2,6 +2,9 @@ package com.example.client_retrofit
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val text = findViewById<TextView>(R.id.text)
 
         val retrofit = Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:2021/")
@@ -26,18 +31,40 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<resultData>, response: Response<resultData>) {
                 if (response.isSuccessful) {
                     // 통신 성공
-                    val result = response.body()
-                    println("onResponse : ${response.body()}")
+                    text.text = "onResponse : ${response.body()}"
                 } else {
                     // 통신 실패 (응답 코드 3xx, 4xx 등)
-                    println("fail")
+                    text.text = "fail"
                 }
             }
 
             override fun onFailure(call: Call<resultData>, t: Throwable) {
                 //통신 실패 (인터넷 끊김, 예외 발생 등)
-                println("onFailure : ${t.message}")
+                text.text = "onFailure : ${t.message}"
             }
         })
+
+        val edittext = findViewById<EditText>(R.id.editTextTextPersonName)
+        val edittext2 = findViewById<EditText>(R.id.editTextTextPersonName2)
+        val button = findViewById<Button>(R.id.button)
+
+        button.setOnClickListener {
+            var input = HashMap<String, String>()
+
+            input[edittext.text.toString()] = edittext2.text.toString()
+
+            service.postDatas(input).enqueue(object : Callback<postData> {
+                override fun onResponse(call: Call<postData>, response: Response<postData>) {
+
+                }
+
+                override fun onFailure(call: Call<postData>, t: Throwable) {
+
+                }
+
+            })
+
+
+        }
     }
 }

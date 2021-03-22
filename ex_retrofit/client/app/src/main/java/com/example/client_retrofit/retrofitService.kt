@@ -1,16 +1,17 @@
 package com.example.client_retrofit
 
+import org.json.JSONObject
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface retrofitService {
 
     @GET("data")
     fun getDatas(): Call<resultData>
 
+    @FormUrlEncoded
     @POST("data")
-    fun postDatas(@Body param : HashMap<String, String>): Call<postData>
-                    //값이 여러개일 경우
+    fun postDatas(@Field("title") title:String,
+                  @Field("body") body:String
+    ): Call<postData>
 }

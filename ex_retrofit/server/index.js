@@ -40,7 +40,10 @@ app.get('/', function(req, res) {
 
 app.get('/data', function(req, res) {
   console.log("get '/data'");
-  res.json({id:1, name:'connect'});
+  RetrofitDB.find({}, function(err, datas){
+    if(err) return console.log(err);
+    res.json(datas);
+  });
 });
 
 app.post('/data', function(req, res) {

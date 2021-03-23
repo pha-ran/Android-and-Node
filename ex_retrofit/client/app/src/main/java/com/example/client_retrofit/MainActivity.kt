@@ -29,18 +29,22 @@ class MainActivity : AppCompatActivity() {
 
         val call = service.getDatas()
 
-        call.enqueue(object : Callback<resultData> {
-            override fun onResponse(call: Call<resultData>, response: Response<resultData>) {
+        call.enqueue(object : Callback<ArrayList<resultData>> {
+            override fun onResponse(call: Call<ArrayList<resultData>>, response: Response<ArrayList<resultData>>) {
                 if (response.isSuccessful) {
                     // 통신 성공
                     text.text = "onResponse : ${response.body()}"
+                    if (response.body() != null) {
+                        var datalist = response.body()
+                        println(datalist)
+                    }
                 } else {
                     // 통신 실패 (응답 코드 3xx, 4xx 등)
                     text.text = "fail"
                 }
             }
 
-            override fun onFailure(call: Call<resultData>, t: Throwable) {
+            override fun onFailure(call: Call<ArrayList<resultData>>, t: Throwable) {
                 //통신 실패 (인터넷 끊김, 예외 발생 등)
                 text.text = "onFailure : ${t.message}"
             }

@@ -7,7 +7,7 @@ import retrofit2.http.*
 interface retrofitService {
 
     @GET("data")
-    fun getDatas(): Call<resultData>
+    fun getDatas(): Call<ArrayList<resultData>>
 
     @FormUrlEncoded
     @POST("data")

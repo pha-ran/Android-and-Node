@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.Call
@@ -14,11 +17,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+
+    var datalist = ArrayList<resultData>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val text = findViewById<TextView>(R.id.text)
+        val recyclerview = findViewById<RecyclerView>(R.id.rec)
+        val adapter = adapter(datalist, this)
+        val layoutmanager = LinearLayoutManager(this)
+        recyclerview.layoutManager = layoutmanager
+        recyclerview.adapter = adapter
 
         val retrofit = Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:2021/")
@@ -35,8 +46,13 @@ class MainActivity : AppCompatActivity() {
                     // 통신 성공
                     text.text = "onResponse : ${response.body()}"
                     if (response.body() != null) {
-                        var datalist = response.body()
-                        println(datalist)
+                        //datalist = response.body()!!
+                        //println(datalist[0].gettitle())
+                        for (i in 0..4) {
+                            datalist.add(resultData(response.body()!![i].getid(), response.body()!![i].gettitle()))
+                        }
+
+                        adapter.notifyDataSetChanged()
                     }
                 } else {
                     // 통신 실패 (응답 코드 3xx, 4xx 등)

@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                     if (response.body() != null) {
                         //datalist = response.body()!!
                         //println(datalist[0].gettitle())
-                        for (i in 0..4) {
+                        for (i in 0..6) {
                             datalist.add(resultData(response.body()!![i].getid(), response.body()!![i].gettitle()))
                         }
 
@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         // 통신 성공
                         text.text = "onResponse : ${response.body()}"
+                        adapter.notifyDataSetChanged()
                     } else {
                         // 통신 실패 (응답 코드 3xx, 4xx 등)
                         text.text = "fail"
@@ -88,8 +89,22 @@ class MainActivity : AppCompatActivity() {
                     text.text = "onFailure : ${t.message}"
                 }
             })
+        }
 
+        val button2 = findViewById<Button>(R.id.button2)
 
+        button2.setOnClickListener {
+            service.deleteData(edittext.text.toString()).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    text.text = "onResponse : ${response.body()}"
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    text.text = "onFailure : ${t.message}"
+                }
+
+            })
         }
     }
 }

@@ -54,3 +54,10 @@ app.post('/data', function(req, res) {
     res.json(data);
   });
 });
+
+app.delete('/data/:title', function(req, res) {
+  RetrofitDB.deleteOne({title:req.params.title}, function(err){
+    if(err) return console.log(err);
+    console.log("delete");
+  })
+})

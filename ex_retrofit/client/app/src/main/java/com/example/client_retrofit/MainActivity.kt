@@ -40,31 +40,37 @@ class MainActivity : AppCompatActivity() {
 
         val call = service.getDatas()
 
-        call.enqueue(object : Callback<ArrayList<resultData>> {
-            override fun onResponse(call: Call<ArrayList<resultData>>, response: Response<ArrayList<resultData>>) {
-                if (response.isSuccessful) {
-                    // 통신 성공
-                    text.text = "onResponse : ${response.body()}"
-                    if (response.body() != null) {
-                        //datalist = response.body()!!
-                        //println(datalist[0].gettitle())
-                        for (i in 0..6) {
-                            datalist.add(resultData(response.body()!![i].getid(), response.body()!![i].gettitle()))
+
+
+        val button4 = findViewById<Button>(R.id.button4)
+
+        button4.setOnClickListener {
+            call.clone().enqueue(object : Callback<ArrayList<resultData>> {
+                override fun onResponse(call: Call<ArrayList<resultData>>, response: Response<ArrayList<resultData>>) {
+                    if (response.isSuccessful) {
+                        // 통신 성공
+                        text.text = "onResponse : ${response.body()}"
+                        if (response.body() != null) {
+                            //datalist = response.body()!!
+                            //println(datalist[0].gettitle())
+                            for (i in 0 until response.body()!!.size) {
+                                datalist.add(resultData(response.body()!![i].getid(), response.body()!![i].gettitle()))
+                            }
+
+                            adapter.notifyDataSetChanged()
                         }
-
-                        adapter.notifyDataSetChanged()
+                    } else {
+                        // 통신 실패 (응답 코드 3xx, 4xx 등)
+                        text.text = "fail"
                     }
-                } else {
-                    // 통신 실패 (응답 코드 3xx, 4xx 등)
-                    text.text = "fail"
                 }
-            }
 
-            override fun onFailure(call: Call<ArrayList<resultData>>, t: Throwable) {
-                //통신 실패 (인터넷 끊김, 예외 발생 등)
-                text.text = "onFailure : ${t.message}"
-            }
-        })
+                override fun onFailure(call: Call<ArrayList<resultData>>, t: Throwable) {
+                    //통신 실패 (인터넷 끊김, 예외 발생 등)
+                    text.text = "onFailure : ${t.message}"
+                }
+            })
+        }
 
         val edittext = findViewById<EditText>(R.id.editTextTextPersonName)
         val edittext2 = findViewById<EditText>(R.id.editTextTextPersonName2)
@@ -96,7 +102,6 @@ class MainActivity : AppCompatActivity() {
         button2.setOnClickListener {
             service.deleteData(edittext.text.toString()).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    text.text = "onResponse : ${response.body()}"
                     adapter.notifyDataSetChanged()
                 }
 

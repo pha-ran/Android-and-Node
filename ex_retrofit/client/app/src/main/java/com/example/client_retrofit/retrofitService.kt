@@ -15,6 +15,11 @@ interface retrofitService {
                   @Field("body") body:String
     ): Call<postData>
 
+    @PUT("data/{title}")
+    fun putData(@Path("title") title : String,
+                @Field("body") body:String
+    ) : Call<postData>
+
     @DELETE("data/{title}")
     fun deleteData(@Path("title") title : String) : Call<Void>
 }

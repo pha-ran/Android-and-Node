@@ -111,5 +111,24 @@ class MainActivity : AppCompatActivity() {
 
             })
         }
+
+        val button3 = findViewById<Button>(R.id.button3)
+
+        button3.setOnClickListener {
+            service.putData(edittext.text.toString(), edittext2.text.toString()).enqueue(object : Callback<postData> {
+                override fun onResponse(call: Call<postData>, response: Response<postData>) {
+                    if (response.isSuccessful) {
+                        text.text = "onResponse : ${response.body()}"
+                        adapter.notifyDataSetChanged()
+                    } else {
+                        text.text = "fail"
+                    }
+                }
+
+                override fun onFailure(call: Call<postData>, t: Throwable) {
+                    text.text = "onFailure : ${t.message}"
+                }
+            })
+        }
     }
 }

@@ -55,6 +55,13 @@ app.post('/data', function(req, res) {
   });
 });
 
+app.put('/data/:title', function(req, res) {
+  RetrofitDB.findOneAndUpdate({title:req.params.title}, req.body, function(err, data) {
+    if(err) return console.log(err);
+    console.log("put");
+  });
+});
+
 app.delete('/data/:title', function(req, res) {
   RetrofitDB.deleteOne({title:req.params.title}, function(err){
     if(err) return console.log(err);

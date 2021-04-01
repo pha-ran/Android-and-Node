@@ -15,6 +15,7 @@ interface retrofitService {
                   @Field("body") body:String
     ): Call<postData>
 
+    @FormUrlEncoded
     @PUT("data/{title}")
     fun putData(@Path("title") title : String,
                 @Field("body") body:String

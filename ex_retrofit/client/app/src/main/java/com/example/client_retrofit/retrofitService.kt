@@ -1,13 +1,19 @@
 package com.example.client_retrofit
 
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 
 interface retrofitService {
 
     @GET("data")
     fun getDatas(): Call<ArrayList<resultData>>
+
+    @GET("seed")
+    @Streaming
+    fun getImage(): Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("data")

@@ -1,14 +1,17 @@
 package com.example.client_retrofit
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.JsonObject
+import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,9 +41,19 @@ class MainActivity : AppCompatActivity() {
 
         val service = retrofit.create(retrofitService::class.java)
 
+        val img = findViewById<ImageView>(R.id.imageView2)
+        service.getImage().enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                val bs = response.body()!!.byteStream()
+                val bitmap = BitmapFactory.decodeStream(bs)
+                img.setImageBitmap(bitmap)
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
+            }
+        })
+
         val call = service.getDatas()
-
-
 
         val button4 = findViewById<Button>(R.id.button4)
 

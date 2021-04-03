@@ -12,6 +12,7 @@ var db = mongoose.connection;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static(__dirname+'/public'));
 
 var retrofitSchema = mongoose.Schema({
   title:{type:String, required:true, unique:true},
@@ -36,6 +37,10 @@ app.listen(port, function(){
 
 app.get('/', function(req, res) {
   console.log("get '/'");
+});
+
+app.get('/seed', function(req, res) {
+  res.send('<img src="/seed1.jpg">');
 });
 
 app.get('/data', function(req, res) {

@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -18,6 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,16 +44,7 @@ class MainActivity : AppCompatActivity() {
         val service = retrofit.create(retrofitService::class.java)
 
         val img = findViewById<ImageView>(R.id.imageView2)
-        service.getImage().enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                val bs = response.body()!!.byteStream()
-                val bitmap = BitmapFactory.decodeStream(bs)
-                img.setImageBitmap(bitmap)
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
-            }
-        })
+        Glide.with(this).load("http://10.0.2.2:2021/images/seed1.jpg").into(img)
 
         val call = service.getDatas()
 

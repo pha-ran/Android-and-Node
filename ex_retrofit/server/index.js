@@ -39,10 +39,6 @@ app.get('/', function(req, res) {
   console.log("get '/'");
 });
 
-app.get('/seed', function(req, res) {
-  res.send('<img src="/seed1.jpg">');
-});
-
 app.get('/data', function(req, res) {
   console.log("get '/data'");
   RetrofitDB.find({}, function(err, datas){

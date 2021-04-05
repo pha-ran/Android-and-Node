@@ -11,10 +11,6 @@ interface retrofitService {
     @GET("data")
     fun getDatas(): Call<ArrayList<resultData>>
 
-    @GET("seed")
-    @Streaming
-    fun getImage(): Call<ResponseBody>
-
     @FormUrlEncoded
     @POST("data")
     fun postDatas(@Field("title") title:String,

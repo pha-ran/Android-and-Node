@@ -5,7 +5,7 @@ import android.os.Bundle
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_MaterialComponents_Light_NoActionBar)
+        setTheme(R.style.Theme_Dal_client)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }

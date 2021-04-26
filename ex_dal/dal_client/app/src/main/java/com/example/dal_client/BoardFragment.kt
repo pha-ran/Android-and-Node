@@ -7,9 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 
 class BoardFragment : Fragment() {
-
-    val mainActivity = activity as MainActivity
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?,
